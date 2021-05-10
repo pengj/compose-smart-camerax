@@ -29,7 +29,7 @@ class GestureAnalyzer(private val onGestureDetected: (Int) -> Unit) : ImageAnaly
                     if (list.isNotEmpty()) {
                         val category = list.first().category
                         onGestureDetected.invoke(category)
-                        Log.e(TAG, "onGestureDetected: $category")
+                        Log.d(TAG, "onGestureDetected: $category")
                     }
                     inprogress = false
                     imageProxy.close()

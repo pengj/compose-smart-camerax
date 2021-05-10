@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.VideoCapture
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,8 +31,9 @@ class GestureViewModel : ViewModel() {
             takePicture()
         }
     }
+
     fun viewImage(uri: Uri) {
-        Log.e(TAG, "view Image: $uri")
+        Log.d(TAG, "view Image: $uri")
     }
 
     fun setupImageCapture(rotation: Int, outputFolder: File): ImageCapture {
@@ -42,7 +44,7 @@ class GestureViewModel : ViewModel() {
                 .build()
             this.outputFolder = outputFolder
         }
-        Log.e(TAG, "return imageCapture: $imageCapture")
+        Log.d(TAG, "return imageCapture: $imageCapture")
         return imageCapture
     }
 
@@ -61,7 +63,6 @@ class GestureViewModel : ViewModel() {
     }
 
     private fun capture() {
-        Log.e("GestureViewModel", "takePicture")
         // Create output file to hold the image
         val photoFile = createFile(outputFolder, FILENAME, PHOTO_EXTENSION)
 
@@ -73,8 +74,9 @@ class GestureViewModel : ViewModel() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     captureFileUri = output.savedUri ?: Uri.fromFile(photoFile)
-                    Log.e(TAG, "Photo capture succeeded: $captureFileUri")
+                    Log.d(TAG, "Photo capture succeeded: $captureFileUri")
                 }
+
                 override fun onError(exception: ImageCaptureException) {
                     Log.e(TAG, "Photo capture exception: $exception")
                 }
@@ -82,9 +84,7 @@ class GestureViewModel : ViewModel() {
     }
 
 
-
     companion object {
-
         private const val TAG = "GestureViewModel"
         private const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val PHOTO_EXTENSION = ".jpg"
